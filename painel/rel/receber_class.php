@@ -8,8 +8,20 @@ $dataFinal = $_POST['dataFinal'];
 $pago = $_POST['pago'];
 $tipo_data = $_POST['tipo_data'];
 
+// Certifique-se de que a URL está correta
+$url_sistema = 'http://localhost:81/lavajato/';
+
+// Constrói a URL
+$url = $url_sistema . "painel/rel/receber.php?dataInicial=$dataInicial&dataFinal=$dataFinal&pago=$pago&tipo_data=$tipo_data";
+
 // Carrega o conteúdo HTML do arquivo remoto com os parâmetros passados na URL
-$html = file_get_contents($url_sistema . "painel/rel/receber.php?dataInicial=$dataInicial&dataFinal=$dataFinal&pago=$pago&tipo_data=$tipo_data");
+$html = file_get_contents($url);
+
+// Verifica se houve erro ao carregar o conteúdo HTML
+if ($html === false) {
+    die("Erro ao carregar conteúdo HTML. Verifique a URL: $url");
+}
+
 
 // Inclui a biblioteca Dompdf
 require_once '../dompdf/autoload.inc.php';

@@ -29,19 +29,20 @@ if (count($res) > 0) {
         $data_cad = $row['data_cad'];
         $data_nasc = $row['data_nasc'];
 
-        $data_cadF = implode('/', array_reverse(explode('-', $data_cad)));
-        $data_nascF = implode('/', array_reverse(explode('-', $data_nasc)));
+        $data_cadF = !empty($data_cad) ? implode('/', array_reverse(explode('-', $data_cad))) : '';
+        $data_nascF = !empty($data_nasc) ? implode('/', array_reverse(explode('-', $data_nasc))) : '';
+
 
         $tel_whatsF = '55' . preg_replace('/[ ()-]+/', '', $telefone);
 
         $dadosXls .= "<tr>";
-        $dadosXls .= "<td>" . htmlspecialchars($nome, ENT_QUOTES, 'UTF-8') . "</td>";
-        $dadosXls .= "<td>" . htmlspecialchars($telefone, ENT_QUOTES, 'UTF-8') . "</td>";
-        $dadosXls .= "<td>" . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . "</td>";
-        $dadosXls .= "<td>" . htmlspecialchars($cpf, ENT_QUOTES, 'UTF-8') . "</td>";
-        $dadosXls .= "<td>" . htmlspecialchars($tipo_pessoa, ENT_QUOTES, 'UTF-8') . "</td>";
-        $dadosXls .= "<td>" . htmlspecialchars($data_cadF, ENT_QUOTES, 'UTF-8') . "</td>";
-        $dadosXls .= "<td>" . htmlspecialchars($data_nascF, ENT_QUOTES, 'UTF-8') . "</td>";
+        $dadosXls .= "<td>" . mb_convert_encoding($nome, 'ISO-8859-1', 'UTF-8') . "</td>";
+        $dadosXls .= "<td>" . mb_convert_encoding($telefone, 'ISO-8859-1', 'UTF-8') . "</td>";
+        $dadosXls .= "<td>" . mb_convert_encoding($email, 'ISO-8859-1', 'UTF-8') . "</td>";
+        $dadosXls .= "<td>" . mb_convert_encoding($cpf, 'ISO-8859-1', 'UTF-8') . "</td>";
+        $dadosXls .= "<td>" . mb_convert_encoding($tipo_pessoa, 'ISO-8859-1', 'UTF-8') . "</td>";
+        $dadosXls .= "<td>" . mb_convert_encoding($data_cadF, 'ISO-8859-1', 'UTF-8') . "</td>";
+        $dadosXls .= "<td>" . mb_convert_encoding($data_nascF, 'ISO-8859-1', 'UTF-8') . "</td>";
         $dadosXls .= "</tr>";
     }
 }
@@ -50,7 +51,7 @@ $dadosXls .= "</table>";
 
 $arquivo = "rel-clientes.xls";
 
-header('Content-Type: application/vnd.ms-excel');
+header('Content-Type: application/vnd.ms-excel; charset=ISO-8859-1');
 header('Content-Disposition: attachment;filename="' . $arquivo . '"');
 header('Cache-Control: max-age=0');
 

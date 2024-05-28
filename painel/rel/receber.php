@@ -12,8 +12,8 @@ $pago = $_GET['pago'];
 $tipo_data = $_GET['tipo_data'];
 
 // Formata as datas para o formato dd/mm/yyyy
-$dataInicialF = implode('/', array_reverse(explode('-', $dataInicial)));
-$dataFinalF = implode('/', array_reverse(explode('-', $dataFinal)));
+$dataInicialF = $dataInicial ? implode('/', array_reverse(explode('-', $dataInicial))) : '';
+$dataFinalF = $dataFinal ? implode('/', array_reverse(explode('-', $dataFinal))) : '';
 
 // Define o texto para o filtro de pagamento
 $texto_pago = "";

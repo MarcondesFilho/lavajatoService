@@ -92,6 +92,10 @@ span.dashboard_text {
 .header-right {
     float: right;
 }
+.btn-active {
+  background-color: #007bff !important;
+  color: white !important;
+}
 /* ----menu-icon----*/
 button#showLeftPush {
     font-size: 1.1em;
