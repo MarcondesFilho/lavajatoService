@@ -75,17 +75,19 @@ $dados_grafico = array_map(function($dado) use ($diasSemana) {
 }, $dados_grafico);
 ?>
 
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <div class="main-page margin-mobile">
 	<?php if($ativo_sistema == ''): ?>
 		<div style="background: #ffc341; color:#3e3e3e; padding:10px; font-size:14px; margin-bottom:10px">
 			<div><i class="fa fa-info-circle"></i> <b>Aviso: </b> Prezado Cliente, não identificamos o pagamento de sua última mensalidade, entre em contato conosco o mais rápido possivel para regularizar o pagamento, caso contário seu acesso ao sistema será desativado.</div>
 		</div>
 	<?php endif; ?>
-
-	<link rel="stylesheet" href="css/style.css">
+	
 	<div class="text-center mb-4">
-	<button onclick="highlightButton(this); window.location.href='?filtro=semanal'" class="btn btn-default btn-filter <?php if($periodoTexto == 'Semanal') echo 'btn-active'; ?>">Semanal</button>
-    <button onclick="highlightButton(this); window.location.href='?filtro=mensal'" class="btn btn-default btn-filter <?php if($periodoTexto == 'Mensal') echo 'btn-active'; ?>">Mensal</button>
+		<a href="?filtro=semanal" class="btn btn-default" <?php echo $_GET['filtro'] == 'semanal' ? "style='background-color: #1767bd;color: #fff;border: 1px solid #000000;'" : '' ?> id="btn-semanal">Semanal</a>
+		<a href="?filtro=mensal" class="btn btn-default" <?php echo $_GET['filtro'] == 'mensal' ? "style='background-color: #1767bd;color: #fff;border: 1px solid #000000;'" : '' ?> id="btn-mensal">Mensal</a>
     </div>
 
 	<div class="col_2">
@@ -94,7 +96,7 @@ $dados_grafico = array_map(function($dado) use ($diasSemana) {
 					<i class="pull-left fa fa-dollar icon-rounded"></i>
 					<div class="stats">
 						<h5><strong>R$<?php echo number_format($fluxo_caixa, 2, ',', '.'); ?></strong></h5>
-                        <span>Fluxo de Caixa <?php echo $periodoTexto; ?></span>
+                        <span>Fluxo de Caixa</span>
 					</div>
 			</div>
 		</div>
@@ -190,43 +192,38 @@ $dados_grafico = array_map(function($dado) use ($diasSemana) {
 
 </div>
     
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        var ctx = document.getElementById('graficoServicos').getContext('2d');
-        var dadosGrafico = <?php echo json_encode($dados_grafico); ?>;
-        var dias = dadosGrafico.map(dado => dado.dia);
-        var quantidades = dadosGrafico.map(dado => dado.quantidade);
-
-        var graficoServicos = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: dias,
-                datasets: [{
-                    label: 'Serviços por Dia',
-                    data: quantidades,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    </script>
-
+<canvas id="graficoServicos"></canvas>
 <script>
-    function highlightButton(button) {
-        // Remove active class from all buttons
-        var buttons = document.querySelectorAll('.btn-filter');
-        buttons.forEach(function(btn) {
-            btn.classList.remove('btn-active');
-        });
-        // Add active class to the clicked button
-        button.classList.add('btn-active');
-    }
+	var ctx = document.getElementById('graficoServicos').getContext('2d');
+	var dadosGrafico = <?php echo json_encode($dados_grafico); ?>;
+	var dias = dadosGrafico.map(dado => dado.dia);
+	var quantidades = dadosGrafico.map(dado => dado.quantidade);
+
+	var graficoServicos = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: dias,
+			datasets: [{
+				label: 'Serviços por Dia',
+				data: quantidades,
+				fill: true, // Preenche a área abaixo da linha
+				backgroundColor: 'rgba(75, 192, 192, 0.2)', // Cor de preenchimento
+				borderColor: 'rgba(75, 192, 192, 1)', // Cor da borda
+				borderWidth: 1,
+				tension: 0.4 // Curvatura da linha
+			}]
+		},
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			},
+			elements: {
+				line: {
+					tension: 0.4 // Curvatura da linha
+				}
+			}
+		}
+	});
 </script>

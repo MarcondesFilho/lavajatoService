@@ -8,6 +8,12 @@ body{
   padding: 8% 0 0;
 }
 
+.btn-active {
+  background-color: #1767bd !important;
+  color: #fff !important;
+  border: 2px solid #000000 !important;
+}
+
 .form {
   position: relative;
   z-index: 1;
