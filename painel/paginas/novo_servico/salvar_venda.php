@@ -8,10 +8,16 @@ $usuario_logado = @$_SESSION['id'];
 
 $id = @$_POST['id'];
 $id_veiculo = @$_POST['id'];
+$servico_id = @$_POST['servico'];
 
 $query = $pdo->query("SELECT * from veiculos where id = '$id'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
-$cliente = $res[0]['cliente'];
+if (count($res) > 0) {
+    $cliente = $res[0]['cliente'];
+} else {
+    echo "Erro: Veículo não encontrado.";
+    exit();
+}
 
 $data_pgto = $_POST['data_pgto'];
 $valor_serv = $_POST['valor_serv'];
@@ -122,11 +128,21 @@ if(strtotime($data_pgto_restante) <=  strtotime($data_atual)){
 $pdo->query("INSERT INTO $tabela SET descricao = '$descricao', referencia = 'Serviço', valor = '$valor_serv_restante', data_lanc = curDate(), vencimento = '$data_pgto_restante', usuario_lanc = '$usuario_logado', usuario_pgto = '$usuario_baixa', arquivo = 'sem-foto.png', cliente = '$cliente', pago = '$pago_restante', forma_pgto = '$pgto_restante', frequencia = '0', taxa = '$taxa_restante', subtotal = '$subtotal_restante', id_ref = '$id_veiculo', venda = '$id_venda', desconto = '$desconto' $data_pgto2_restante");	
 }
 
-
-
-
 $pdo->query("INSERT INTO $tabela SET descricao = '$descricao', referencia = 'Serviço', valor = '$valor_serv', data_lanc = curDate(), vencimento = '$data_pgto', usuario_lanc = '$usuario_logado', usuario_pgto = '$usuario_baixa', arquivo = 'sem-foto.png', cliente = '$cliente', pago = '$pago', forma_pgto = '$pgto', frequencia = '0', taxa = '$taxa', subtotal = '$subtotal', id_ref = '$id_veiculo', venda = '$id_venda', desconto = '$desconto' $data_pgto2");
 
+// Calcular a comissão e lançar como despesa
+$query_comissao = $pdo->query("SELECT comissao FROM servicos WHERE id = '$servico_id'");
+$res_comissao = $query_comissao->fetchAll(PDO::FETCH_ASSOC);
+if (count($res_comissao) > 0) {
+    $comissao_percentual = $res_comissao[0]['comissao'];
+    $valor_comissao = $valor_serv * ($comissao_percentual / 100);
+    $descricao_comissao = 'Comissão do serviço '.$nome_cliente;
+
+	$pdo->query("INSERT INTO pagar SET descricao = '$descricao_comissao', fornecedor = 0, funcionario = '$funcionario', valor = '$valor_comissao', vencimento = '$data_pgto', data_lanc = curDate(), forma_pgto = '$pgto', frequencia = '0', usuario_lanc = '$usuario_logado', usuario_pgto = 0, pago = 'Não'");
+} else {
+    echo "Erro: Comissão não encontrada para o serviço.";
+    exit();
+}
 
 $pdo->query("UPDATE itens_servicos SET venda = '$id_venda' where venda = '0' and veiculo = '$id_veiculo'");
 

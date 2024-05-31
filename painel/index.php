@@ -187,7 +187,7 @@ if($linhas > 0){
 						<ul class="sidebar-menu">
 							<li class="header">MENU NAVEGAÇÃO</li>
 							<li class="treeview <?php echo @$home ?>">
-								<a href="index.php">
+								<a href="index.php?filtro=mensal">
 									<i class="fa fa-dashboard"></i> <span>Home</span>
 								</a>
 							</li>

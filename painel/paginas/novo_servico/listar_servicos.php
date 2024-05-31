@@ -8,6 +8,7 @@ $usuario_logado = @$_SESSION['id'];
 
 $id = @$_POST['id'];
 $id_veiculo = @$_POST['id'];
+$servico_id = @$_POST['servico'];
 
 if($id == ""){
 	$id = 0;

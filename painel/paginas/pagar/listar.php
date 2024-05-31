@@ -124,7 +124,10 @@ for($i=0; $i<$linhas; $i++){
 	}
 
 
-
+$arquivo = $res[$i]['arquivo'];
+if (!$arquivo) {
+	$arquivo = 'sem-foto.png'; // Valor padrão caso $arquivo seja null
+}
 	//extensão do arquivo
 $ext = pathinfo($arquivo, PATHINFO_EXTENSION);
 if($ext == 'pdf' || $ext == 'PDF'){
