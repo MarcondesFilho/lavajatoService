@@ -1,6 +1,8 @@
 <?php 
 require_once("../../conexao.php");
 
+$url_sistema = 'http://localhost:81/lavajato/';
+
 // Obter o conteúdo HTML do arquivo remoto
 $html = file_get_contents($url_sistema . "painel/rel/balanco_anual.php");
 

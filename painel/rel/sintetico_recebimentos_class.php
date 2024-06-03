@@ -10,6 +10,8 @@ $filtro_tipo = "receber"; // Define o tipo de filtro como "receber"
 $filtro_lancamento = urlencode($_POST['filtro_lancamento']);
 $filtro_pendentes = $_POST['filtro_pendentes'];
 
+$url_sistema = 'http://localhost:81/lavajato/';
+
 // Gera o conteúdo HTML do arquivo remoto com os parâmetros passados na URL
 $html = file_get_contents($url_sistema . "painel/rel/sintetico_recebimentos.php?filtro_data=$filtro_data&dataInicial=$dataInicial&dataFinal=$dataFinal&filtro_tipo=$filtro_tipo&filtro_lancamento=$filtro_lancamento&filtro_pendentes=$filtro_pendentes");
 

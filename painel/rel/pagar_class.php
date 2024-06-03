@@ -8,6 +8,8 @@ $dataFinal = $_POST['dataFinal'];
 $pago = $_POST['pago'];
 $tipo_data = $_POST['tipo_data'];
 
+$url_sistema = 'http://localhost:81/lavajato/';
+
 // Carrega o conteúdo HTML do arquivo remoto com os parâmetros passados na URL
 $html = file_get_contents($url_sistema . "painel/rel/pagar.php?dataInicial=$dataInicial&dataFinal=$dataFinal&pago=$pago&tipo_data=$tipo_data");
 

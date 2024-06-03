@@ -6,7 +6,7 @@ date_default_timezone_set('America/Sao_Paulo');
 $url_sistema = "http://$_SERVER[HTTP_HOST]/";
 $url = explode("//", $url_sistema);
 if($url[1] == 'localhost/'){
-	$url_sistema = "http://$_SERVER[HTTP_HOST]/lavajato/";
+	$url_sistema = "http://$_SERVER[HTTP_HOST]:81/lavajato/";
 }
 
 //dados conexão bd local
@@ -26,7 +26,7 @@ try {
 //variaveis globais
 $nome_sistema = 'Nome Sistema';
 $email_sistema = 'contato@hugocursos.com.br';
-$telefone_sistema = '(31)97527-5084';
+$telefone_sistema = '(85)98512-4166';
 
 $query = $pdo->query("SELECT * from config");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
